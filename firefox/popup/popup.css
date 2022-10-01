@@ -1,0 +1,15 @@
+html {
+    font-family: Sans;
+    font-size: 1em;
+
+}
+
+div.section {
+    margin: 1em;
+}
+
+
+.btn-link {
+    display: inline-block;
+    margin: 0.2em;
+}

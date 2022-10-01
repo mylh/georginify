@@ -1,0 +1,42 @@
+{
+
+    "manifest_version": 2,
+    "name": "Georginify",
+    "version": "1.0",
+
+    "description": "Extension helps to learn Georgian alphabet by replacing characters of your language with Georgian letters that sounds the same.",
+
+    "permissions": [
+        "activeTab",
+        "storage"
+    ],
+
+
+    "icons": {
+        "48": "icons/georginify-48.png",
+        "96": "icons/georginify-96.png"
+    },
+
+    "browser_action": {
+        "default_icon": "icons/georginify-32.png",
+        "default_title": "Georginify",
+        "default_popup": "popup/popup.html"
+    },
+
+
+    "content_scripts": [{
+        "matches": ["*://*/*"],
+        "js": ["georginify.js"]
+    }],
+
+    "options_ui": {
+        "page": "settings/settings.html"
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "addon@example.com"
+        }
+    }
+
+}
