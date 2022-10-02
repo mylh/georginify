@@ -105,13 +105,28 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
-function onGot(item) {
-    console.debug("Global state", item.globalState);
-    if (item.globalState) {
-        georginify();
+
+const observerCallback = (mutationList, observer) => {
+    for (const mutation of mutationList) {
+        traverse(mutation.target);
     }
+};
+
+
+function main() {
+    function onGetGlobalState(item) {
+        console.debug("Global state", item.globalState);
+        if (item.globalState) {
+            georginify();
+            // observe DOM changes
+            const observer = new MutationObserver(observerCallback);
+            const config = { attributes: false, childList: true, subtree: true };
+            observer.observe(document.body, config);
+        }
+    }
+    loadSettings();
+    const getting = browser.storage.sync.get("globalState");
+    getting.then(onGetGlobalState, onError);
 }
 
-loadSettings();
-const getting = browser.storage.sync.get("globalState");
-getting.then(onGot, onError);
+main();
