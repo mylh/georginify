@@ -22,6 +22,7 @@ const CHARS = {
     's': 'ს',
     't': 'ტ',
     'p': 'ფ',
+    'ф': 'ფ',
 
     //Russian
     'а': 'ა',
@@ -47,6 +48,8 @@ const CHARS = {
     'с': 'ს',
     'т': 'ტ',
     'п': 'ფ',
+    'ф': 'ფ',
+
 };
 
 function createInput(letter) {
