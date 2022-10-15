@@ -57,11 +57,11 @@ var TAGS_EXCLUDE = [
 ];
 
 var CHARS = {}; // populated from settings
+var REPLACE_RE = null;
 
 function traverse(node) {
     if(node.nodeType == Node.TEXT_NODE && TAGS.indexOf(node.parentNode.tagName) !== -1) {
-        let re = new RegExp('[' + Object.keys(CHARS).join('') + ']', 'gi');
-        node.textContent = node.textContent.replace(re, function(c) { return CHARS[c]; });
+        node.textContent = node.textContent.replace(REPLACE_RE, function(c) { return CHARS[c]; });
         //console.debug(node.tagName, node.text);
     }
 
@@ -71,6 +71,10 @@ function traverse(node) {
         }
         traverse(element);
     }
+}
+
+function title(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function loadSettings() {
@@ -83,8 +87,26 @@ function loadSettings() {
         }
         CHARS = chars;
         for(let c in CHARS) {
-            CHARS[c.toUpperCase()] = CHARS[c];
+            CHARS[title(c)] = CHARS[c];
         }
+        let re_main = '', re_group = '';
+        let keys = Object.keys(CHARS);
+        for(let i = 0; i < keys.length; i++) {
+            let key = keys[i];
+            if(key.length > 1) {
+                if (re_main != '') {
+                    re_main += '|';
+                }
+                re_main += key;
+            } else {
+                re_group += key;
+            }
+        }
+        if (re_group) {
+            re_main += '|[' + re_group + ']';
+        }
+        REPLACE_RE = new RegExp(re_main, 'g');
+        //console.debug(CHARS, re_main);
     }
 
     let getting = browser.storage.sync.get("letters");
@@ -115,7 +137,7 @@ const observerCallback = (mutationList, observer) => {
 
 function main() {
     function onGetGlobalState(item) {
-        console.debug("Global state", item.globalState);
+        //console.debug("Global state", item.globalState);
         if (item.globalState) {
             georginify();
             // observe DOM changes

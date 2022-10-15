@@ -26,6 +26,8 @@ const CHARS = {
     'k': 'ქ',
     'g': 'ღ',
     'q': 'ყ',
+    'sh': 'შ',
+    'ch': 'ჩ',
 
     //Russian
     'а': 'ა',
@@ -55,6 +57,8 @@ const CHARS = {
     'к': 'ქ',
     'г': 'ღ',
     'к': 'ყ',
+    'ш': 'შ',
+    'ч': 'ჩ',
 };
 
 function createInput(letter) {
