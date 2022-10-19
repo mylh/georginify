@@ -1,0 +1,13 @@
+body {
+    font-family: Sans
+}
+
+.row {
+    display: flex;
+}
+
+.col {
+    display: inline-block;
+    width: 300px;
+    height: 100%;
+}

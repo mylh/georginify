@@ -56,12 +56,12 @@ var TAGS_EXCLUDE = [
     'CODE',
 ];
 
-var CHARS = {}; // populated from settings
+var CHARS = {};
 var REPLACE_RE = null;
 
 function traverse(node) {
     if(node.nodeType == Node.TEXT_NODE && TAGS.indexOf(node.parentNode.tagName) !== -1) {
-        node.textContent = node.textContent.replace(REPLACE_RE, function(c) { return CHARS[c]; });
+        node.textContent = node.textContent.replace(REPLACE_RE, function(c) { return CHARS[c.toLowerCase()]; });
         //console.debug(node.tagName, node.text);
     }
 
@@ -77,36 +77,48 @@ function title(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function _(dict) {
+    let key = Object.keys(dict)[0];
+    return {
+        id: key.charCodeAt(0) * 10000 + dict[key],
+        key: key,
+        val: dict[key]
+    };
+}
+
 function loadSettings() {
     function apply(result) {
-        let chars = {
+        let chars = [{
             'a': 'ა',
-        };
+        }];
         if(result.letters) {
             chars = result.letters;
         }
-        CHARS = chars;
-        for(let c in CHARS) {
-            CHARS[title(c)] = CHARS[c];
-        }
+        // for(let c in CHARS) {
+        //     CHARS[title(c)] = CHARS[c];
+        // }
         let re_main = '', re_group = '';
-        let keys = Object.keys(CHARS);
-        for(let i = 0; i < keys.length; i++) {
-            let key = keys[i];
-            if(key.length > 1) {
-                if (re_main != '') {
+
+        for(let i = 0; i < chars.length; i++) {
+            let d = _(chars[i]);
+            CHARS[d.key] = d.val;
+            if(d.key.length > 1) {
+                if (re_main.length) {
                     re_main += '|';
                 }
-                re_main += key;
+                re_main += d.key;
             } else {
-                re_group += key;
+                re_group += d.key;
             }
         }
         if (re_group) {
-            re_main += '|[' + re_group + ']';
+            if (re_main.length) {
+                    re_main += '|';
+            }
+            re_main += '[' + re_group + ']';
         }
-        REPLACE_RE = new RegExp(re_main, 'g');
-        //console.debug(CHARS, re_main);
+        REPLACE_RE = new RegExp(re_main, 'gi');
+        //console.debug(chars, re_main);
     }
 
     let getting = browser.storage.sync.get("letters");
