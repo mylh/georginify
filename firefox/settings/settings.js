@@ -110,7 +110,6 @@ function createInput(letter) {
     input.setAttribute('data-replace', d.val);
     li.appendChild(input);
     li.appendChild(label);
-    //el.innerHTML = '<label><input type="checkbox" id="' + d.id + '" name="' + d.key + '" data-replace="' + d.val + '">' + title(d.key) + ',' + d.key + ' = ' + d.val + '</label>';
     return li;
 }
 
