@@ -87,7 +87,7 @@ const CHARS = {
 function _(dict) {
     let key = Object.keys(dict)[0];
     return {
-        id: key.charCodeAt(0) * 10000 + dict[key],
+        id: key.charCodeAt(0) * 10000 + dict[key].charCodeAt(0),
         key: key,
         val: dict[key]
     };
@@ -98,10 +98,20 @@ function title(str) {
 }
 
 function createInput(letter) {
-    let el = document.createElement('li'),
-    d = _(letter);
-    el.innerHTML = '<label><input type="checkbox" id="' + d.id + '" name="' + d.key + '" data-replace="' + d.val + '">' + title(d.key) + ',' + d.key + ' = ' + d.val + '</label>';
-    return el;
+    let li = document.createElement('li'),
+        label = document.createElement('label'),
+        input = document.createElement('input'),
+        d = _(letter);
+    label.innerText = title(d.key) + ',' + d.key + ' = ' + d.val;
+    label.setAttribute('for', d.id);
+    input.setAttribute('type', 'checkbox');
+    input.setAttribute('id', d.id);
+    input.setAttribute('name', d.key);
+    input.setAttribute('data-replace', d.val);
+    li.appendChild(input);
+    li.appendChild(label);
+    //el.innerHTML = '<label><input type="checkbox" id="' + d.id + '" name="' + d.key + '" data-replace="' + d.val + '">' + title(d.key) + ',' + d.key + ' = ' + d.val + '</label>';
+    return li;
 }
 
 function initSettings() {
