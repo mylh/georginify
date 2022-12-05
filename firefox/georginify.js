@@ -22,7 +22,6 @@ const TAGS = [
     'H5',
     'H6',
     'HEADER',
-    'INPUT',
     'LABEL',
     'LEGEND',
     'LI',
@@ -44,7 +43,6 @@ const TAGS = [
     'TABLE',
     'TBODY',
     'TD',
-    'TEXTAREA',
     'TFOOT',
     'TH',
     'TR',
@@ -53,7 +51,13 @@ const TAGS = [
 ];
 
 var TAGS_EXCLUDE = [
+    'INPUT',
     'CODE',
+    'TEXTAREA',
+];
+
+var SELECTORS_EXCLUDE = [
+    '[contenteditable="true"]',
 ];
 
 var CHARS = {};
@@ -66,7 +70,7 @@ function traverse(node) {
     }
 
     for (let element of node.childNodes) {
-        if (node.nodeType == Node.ELEMENT_NODE && TAGS_EXCLUDE.indexOf(node.tagName) !== -1) {
+        if (node.nodeType == Node.ELEMENT_NODE && TAGS_EXCLUDE.indexOf(node.tagName) !== -1 && !SELECTORS_EXCLUDE.some(selector => node.matches(selector))) {
             continue;
         }
         traverse(element);
