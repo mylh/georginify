@@ -2,7 +2,7 @@
 
     "manifest_version": 2,
     "name": "Georginify",
-    "version": "1.0",
+    "version": "1.1",
 
     "description": "This extension helps you to learn Georgian alphabet mkhedruli (მხედრული) by replacing similarly sounding letters of English and Russian alphabets with Georgian letters. Here you can customize which letters to replace since replacing many letters at once is difficult to read.",
 
